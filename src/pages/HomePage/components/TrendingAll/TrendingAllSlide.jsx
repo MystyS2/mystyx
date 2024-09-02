@@ -1,6 +1,6 @@
 import React from 'react';
-import { usePopularMoviesQuery } from '../../../../hooks/usePopularMovies';
-import "./PopularMovieSlide.style.css";
+import { useTrendingAllQuery } from '../../../../hooks/useTrendingAll';
+import "./TrendingAllSlide.style.css";
 import Card from '../Card/Card';
 // Import Swiper React Components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,8 +11,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 
-const PopularMovieSlide = () => {
-    const { data, isLoading, isError, error } = usePopularMoviesQuery();
+
+const PopularTvSlide = () => {
+    const { data, isLoading, isError, error } = useTrendingAllQuery();
+
+    console.log(data)
 
     // 로딩 상태일 때 로딩 UI를 반환
     if (isLoading) {
@@ -39,8 +42,8 @@ const PopularMovieSlide = () => {
         );
     }
     return (
-        <div className='movie-slider  w-screen h-[25vh] p-2'>
-            <h2 className='mb-4 text-3xl text-primary'>Popular Movies🍿</h2>
+        <div className='tv-series-slider  w-screen h-[25vh] p-2'>
+            <h2 className='mb-4 text-3xl text-primary'>Trending❤️‍🔥</h2>
             <Swiper
                 slidesPerView={1}
                 spaceBetween={10}
@@ -68,7 +71,7 @@ const PopularMovieSlide = () => {
                 {data?.results.map((item, index) => {
                     return index < 10 ?
                         <SwiperSlide className='w-full' key={index}>
-                            <Card  item={item} key={index} sort="movie" />
+                            <Card item={item} key={index} sort='tv' />
                         </SwiperSlide>
                         : ''
                 })}
@@ -77,4 +80,4 @@ const PopularMovieSlide = () => {
     )
 }
 
-export default PopularMovieSlide
+export default PopularTvSlide

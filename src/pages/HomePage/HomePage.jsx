@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Banner from './components/Banner/Banner';
+import PopularMovieSlide from './components/PopularMovieSlide/PopularMovieSlide';
+import PopularTvSlide from './components/PopularTvSlide/PopularTvSlide';
+import TrendingAllSlide from './components/TrendingAll/TrendingAllSlide';
 
 // 1. 배너
 // 2. popular movie
@@ -8,8 +10,13 @@ import Banner from './components/Banner/Banner';
 // 4. upcoming movie
 const HomePage = () => {
     return (
-        <div className='grid place-items-center'>
-            <Banner />
+        <div className='grid place-items-center gap-10 mb-32'>
+            <Banner/>
+            <div className='grid gap-20'>
+                <TrendingAllSlide />
+                <PopularMovieSlide />
+                <PopularTvSlide/>                
+            </div>
         </div>
     )
 }

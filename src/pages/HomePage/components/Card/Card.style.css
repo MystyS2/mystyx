@@ -1,0 +1,30 @@
+.card{
+    transition: 0.5s;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    z-index: 2;
+}
+
+.overlay{
+    display: none;
+    opacity: 0;
+    transition: all 1s;
+    overflow-wrap: break-word;
+}
+
+.card-body:hover .overlay{
+    display: block;
+    opacity: 1;
+    backdrop-filter: blur(4px);
+}
+
+.card-body:hover h1{
+    display: none;
+    opacity: 0;
+}
+
+.card.image-full:before{
+    opacity: 0.2;
+}

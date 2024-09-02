@@ -4,7 +4,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 const AppLayout = () => {
     return (
-        <div data-theme="dracula">
+        <div data-theme="dracula" className='h-fit'>
             <div className="navbar bg-neutral text-white">
                 <div className="navbar-start">
                     <div className="dropdown">
