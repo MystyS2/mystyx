@@ -40,7 +40,7 @@ const Banner = () => {
     }
 
     return (
-        <div className='relative w-screen h-[56vh]'>
+        <div className='banner relative w-screen h-[56vh]'>
             <Swiper
                 slidesPerView={1}
                 autoplay={{ delay: 2500, disableOnInteraction: false }}  // Autoplay 설정
