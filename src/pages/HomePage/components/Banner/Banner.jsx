@@ -1,6 +1,15 @@
 import React from 'react';
 import { usePopularMoviesQuery } from '../../../../hooks/usePopularMovies';
 import './Banner.style.css';
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/react';
+// swiper 모듈 가져오기
+import { Autoplay, Navigation } from 'swiper/modules';
+// swiper, Autoplay, Navigation(화살표) CSS 가져오기
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import 'swiper/css/navigation';
+
 
 const Banner = () => {
     const { data, isLoading, isError, error } = usePopularMoviesQuery();
@@ -32,19 +41,33 @@ const Banner = () => {
 
     return (
         <div className='relative w-screen h-[56vh]'>
-            <div
-                className='banner w-full h-full bg-center bg-no-repeat bg-cover'
-                style={{ backgroundImage: "url(https://image.tmdb.org/t/p/original/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg)" }}>
-            </div>
+            <Swiper
+                slidesPerView={1}
+                autoplay={{ delay: 2500, disableOnInteraction: false }}  // Autoplay 설정
+                modules={[Autoplay, Navigation]}  // Autoplay 모듈 추가
+                navigation={true}
+                className='h-full'
+            >
+                {data?.results.map((item, index) => {
+                    return index < 4 ?
+                        <SwiperSlide className='w-full' key={index}>
+                            <div
+                                className='banner w-full h-full bg-center bg-no-repeat bg-cover'
+                                style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${item?.backdrop_path})` }}>
+                            </div>
 
-            <div className="absolute top-0 w-full h-full bg-gradient-to-t from-black to-transparent"></div>
+                            <div className="absolute top-0 w-full h-full bg-gradient-to-t from-black to-transparent"></div>
 
-            <div className="absolute top-0 left-0 w-full h-full p-16 bg-opacity-50 flex items-end justify-start">
-                <div className="text-white text-start">
-                    <h1 className="text-4xl font-bold mb-4">{data?.results[0].title}</h1>
-                    <p className="text-lg hidden lg:flex">{data?.results[0].overview}</p>
-                </div>
-            </div>
+                            <div className="absolute top-0 left-0 w-full h-full p-16 bg-opacity-50 flex items-end justify-start">
+                                <div className="text-white text-start">
+                                    <h1 className="text-4xl font-bold mb-4">{item.title}</h1>
+                                    <p className="text-lg hidden lg:flex">{item.overview}</p>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                        : ''
+                })}
+            </Swiper>
         </div>
 
     )
