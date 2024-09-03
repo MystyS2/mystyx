@@ -49,7 +49,6 @@ const MoviePage = () => {
 
     return (
         <div className='grid place-items-center'>
-            <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{keyword ? `🔍${keyword}의 검색 결과` : 'Trending❤️‍🔥'}</div>
             <div className="mb-20"><Slider type='recommend' informations={trends?.results} /></div>
 
             <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{`Total : ${searchData.total_results}`}</div>
@@ -61,7 +60,7 @@ const MoviePage = () => {
             </div>
 
             <div className="join flex m-4">
-                <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Previous</button>
+                <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Prev</button>
                 <div className='join'>
                     <input className="join-item btn btn-square border-primary" onClick={() => handlePageClick(1)}
                         type="radio" checked={page === 1} name="options" aria-label="1" />
