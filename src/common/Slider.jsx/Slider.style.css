@@ -1,6 +1,7 @@
 .swiper {
     width: 100%;
     height: 100%;
+    overflow: none;
 }
 
 .swiper-slide {
@@ -20,13 +21,13 @@
     object-fit: cover;
 }
 
-.tv-series-slider .swiper-button-prev,
-.tv-series-slider .swiper-button-next {
+.movie-slider .swiper-button-prev,
+.movie-slider .swiper-button-next {
     display: none;
     color: #ff79c5;
 }
 
-.tv-series-slider:hover .swiper-button-prev,
+.movie-slider:hover .swiper-button-prev,
 .swiper:hover .swiper-button-next {
     display: block;
 }

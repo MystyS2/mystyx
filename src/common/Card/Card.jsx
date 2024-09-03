@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Card.style.css"
-import { useMovieGenresQuery } from '../../../../hooks/useMovieGenres';
-import { useTvGenresQuery } from '../../../../hooks/useTvGenres';
+import { useMovieGenresQuery } from '../../hooks/useMovieGenres';
+import { useTvGenresQuery } from '../../hooks/useTvGenres';
 
 const Card = ({ item, sort }) => {
     const imgSrc = `https://image.tmdb.org/t/p/original/${item?.backdrop_path}`
