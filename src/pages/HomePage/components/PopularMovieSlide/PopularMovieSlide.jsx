@@ -31,7 +31,7 @@ const PopularMovieSlide = () => {
         );
     }
     return (
-        <div>
+        <div >
             <Slider type='popular-movie' informations={data?.results}/>
         </div>
     )
