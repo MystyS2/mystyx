@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Card.style.css"
+
 import { useMovieGenresQuery } from '../../hooks/useMovieGenres';
 import { useTvGenresQuery } from '../../hooks/useTvGenres';
 

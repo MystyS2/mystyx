@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../assets/logo2.jpg';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 const AppLayout = () => {
+    const [keyword, setKeyword] = useState('');
+    const navigate = useNavigate();
+    const searchByKeyword = (event) => {
+        event.preventDefault();
+        //url 바꿔주기
+        navigate(`/movies?q=${keyword}`);
+        //비우기
+        setKeyword('');
+    }
     return (
         <div data-theme="dracula" className='h-fit'>
             <div className="navbar bg-neutral text-white">
@@ -39,8 +48,9 @@ const AppLayout = () => {
                 </div>
                 <div className='navbar-end hidden lg:flex'>
                     <div className="flex-none gap-2">
-                        <form className="join flex gap-1">
-                            <input type="text" placeholder="Search" className="join-item input input-bordered input-primary w-24 md:w-auto" />
+                        <form className="join flex gap-1" onSubmit={searchByKeyword}>
+                            <input type="text" placeholder="Search" value={keyword} onChange={(event) => setKeyword(event.target.value)}
+                                className="join-item input input-bordered input-primary w-24 md:w-auto" />
                             <button type='submit' className="join-item btn btn-primary btn-square btn-outline">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
