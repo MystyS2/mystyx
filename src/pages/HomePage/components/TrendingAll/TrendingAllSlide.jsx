@@ -34,7 +34,7 @@ const PopularTvSlide = () => {
         );
     }
     return (
-        <div className='tv-series-slider  w-screen h-[25vh] p-2'>
+        <div className='tv-series-slider w-screen h-[25vh] p-2'>
             <Slider type='trending' informations={data?.results}/>
         </div>
     )

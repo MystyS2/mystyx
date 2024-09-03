@@ -1,6 +1,6 @@
 import React from 'react';
-import "./Slider.style.css"
-import Card from '../Card/Card';
+import "./PosterSlider.style.css"
+import PosterCard from '../PosterCard/PosterCard';
 // Import Swiper React Components
 import { Swiper, SwiperSlide } from 'swiper/react';
 // swiper 모듈 가져오기
@@ -9,7 +9,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const Slider = ({ type, informations }) => {
+const PosterSlider = ({ type, informations }) => {
     const title = type == "popular-movie" ? "Popular Movies🍿" : type == "popular-tv" ? "Popular Tv Series📺" : type == "trending" ? "Trending❤️‍🔥" : "Recommend👍";
 
     return (
@@ -26,15 +26,15 @@ const Slider = ({ type, informations }) => {
                             spaceBetween: 10,
                         },
                         '@0.75': {
-                            slidesPerView: 2,
+                            slidesPerView: 4,
                             spaceBetween: 20,
                         },
                         '@1.00': {
-                            slidesPerView: 3,
-                            spaceBetween: 40,
+                            slidesPerView: 5,
+                            spaceBetween: 30,
                         },
-                        '@1.50': {
-                            slidesPerView: 4,
+                        '@1.20': {
+                            slidesPerView: 8,
                             spaceBetween: 50,
                         },
                     }}
@@ -43,7 +43,7 @@ const Slider = ({ type, informations }) => {
                     {informations?.map((item, index) => {
                         return index < 10 ?
                             <SwiperSlide className='w-full' key={index}>
-                                <Card item={item} key={index} />
+                                <PosterCard item={item} key={index} />
                             </SwiperSlide>
                             : ''
                     })}
@@ -53,4 +53,4 @@ const Slider = ({ type, informations }) => {
     )
 }
 
-export default Slider
+export default PosterSlider

@@ -4,8 +4,8 @@ import "./Card.style.css"
 import { useMovieGenresQuery } from '../../hooks/useMovieGenres';
 import { useTvGenresQuery } from '../../hooks/useTvGenres';
 
-const Card = ({ item, sort }) => {
-    const imgSrc = `https://image.tmdb.org/t/p/original/${item?.backdrop_path}`
+const Card = ({ item }) => {
+    const imgSrc = `https://image.tmdb.org/t/p/original/${item?.backdrop_path ? item.backdrop_path : item.poster_path}`
     const { data: movieGenres } = useMovieGenresQuery();
     const { data: tvGenres} = useTvGenresQuery();
 
