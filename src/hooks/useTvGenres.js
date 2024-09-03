@@ -9,6 +9,7 @@ export const useTvGenresQuery =()=>{
     return useQuery({
         queryKey:['Tv-genres'],
         queryFn:fetchTvGenres,
-        select:(result)=>result.data.genres
+        select:(result)=>result.data.genres,
+        staleTime: 300000 // 5분
     })
 }
