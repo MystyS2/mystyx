@@ -53,15 +53,12 @@ const MoviePage = () => {
             <div className="mb-20"><Slider type='recommend' informations={trends?.results} /></div>
 
             <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{`Total : ${searchData.total_results}`}</div>
-            <div className='grid grid-cols-8 gap-2 m-4'>
+            <div className='grid 2xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 grid-cols-3 min-w-100px gap-2 m-4'>
                 {searchData?.results.map((item, index) => {
                     return <PosterCard item={item} key={index} />
 
                 })}
             </div>
-
-
-            {searchData?.results.map((item, index) => { return <div key={index}>{item.title ? item.title : item.name}</div> })}
 
             <div className="join flex m-4">
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Previous</button>

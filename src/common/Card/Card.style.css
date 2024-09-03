@@ -7,18 +7,15 @@
     z-index: 2;
 }
 
-.card-body:hover{
-    transform: none;
-}
-
-.overlay{
+.info{
     display: none;
-    opacity: 0;
+    opacity: 1;
     transition: all 1s;
     overflow-wrap: break-word;
+    z-index: 10;
 }
 
-.card-body:hover .overlay{
+.card-body:hover .info{
     display: block;
     opacity: 1;
 }
@@ -34,4 +31,20 @@
 
 .card.image-full:before{
     opacity: 0.2;
+}
+
+.card figure {
+    position: relative;
+    width: 100%;
+
+    overflow: hidden; /* 이미지가 컨테이너 밖으로 넘어가는 부분을 숨김 */
+}
+
+.card figure img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 컨테이너에 꽉 차도록 하되, 비율을 유지하며 자름 */
 }

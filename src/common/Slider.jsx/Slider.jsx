@@ -14,7 +14,7 @@ const Slider = ({ type, informations }) => {
 
     return (
         <div>
-            <div className='movie-slider w-screen h-[25vh] p-2'>
+            <div className='movie-slider w-screen h-[25vh]'>
                 <h2 className='mb-4 text-3xl text-primary'>{title}</h2>
                 <Swiper
                     slidesPerView={1}

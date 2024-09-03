@@ -15,17 +15,18 @@ const Card = ({ item }) => {
     if(item.name) genres = tvGenres;
 
     return (
-        <div className="card image-full w-96 shadow-xl cursor-pointer">
+        <div className="card image-full w-96 h-full shadow-xl cursor-pointer">
             <figure>
                 <img
                     src={imgSrc}
                     alt="card image"
+                    className='w-full h-full'
                 />
             </figure>
             <div className="card-body p-0 w-full h-full">
                 <div className="w-full h-full bg-opacity-50 justify-start text-white text-start">
                     <h1 className="card-title p-12 text-4xl">{item.title?item.title:item.name}</h1>
-                    <div className='overlay p-10 w-full h-full flex flex-col'>
+                    <div className='info p-10 w-full h-full flex flex-col'>
                         <h2 className="card-title text-xl mb-2">{item.title?item.title:item.name}</h2>
                         <div className='flex mb-2'>
                             {item.genre_ids.map((id, index) => {
