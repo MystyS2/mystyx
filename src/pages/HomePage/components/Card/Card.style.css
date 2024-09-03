@@ -3,8 +3,12 @@
 }
 
 .card:hover{
-    transform: scale(1.05);
+    transform: scale(0.95);
     z-index: 2;
+}
+
+.card-body:hover{
+    transform: none;
 }
 
 .overlay{
@@ -17,7 +21,10 @@
 .card-body:hover .overlay{
     display: block;
     opacity: 1;
-    backdrop-filter: blur(4px);
+}
+
+.card:hover figure img{
+    filter: blur(4px);
 }
 
 .card-body:hover h1{
