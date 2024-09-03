@@ -2,7 +2,7 @@
 ### ⌛개발 기간  : 2024.08.31~
 ### 💪프로젝트를 통해 연습한 내용
 - React와 Tailwind CSS, DaisyUI 라이브러리 활용
-- route와 react-query 및 toolkit 활용법
+- route와 react-query 및 toolkit, React-Hooks(커스텀 훅 포함) 활용법
 - flex, grid를 통한 레이아웃 구성 및 반응형 디자인
 - Vercel을 통한 배포(이전까지는 netlify/github actions/gh-pages 사용)
 ### 🛠️ Stacks
