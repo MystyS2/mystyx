@@ -1,19 +1,20 @@
-.test{
+.test {
     position: relative;
     transition: 0.5s;
 }
 
-.test:hover{
+.test:hover {
     transform: scale(1.01);
     z-index: 2;
     cursor: pointer;
 }
+
 .overlay {
     opacity: 0;
     position: absolute;
     top: 0;
-    width: 100%;  
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     visibility: hidden;
 }
 
@@ -24,7 +25,6 @@
 }
 
 
-.test:hover figure img{
+.test:hover figure img {
     filter: blur(4px);
 }
-

@@ -1,0 +1,14 @@
+/* MoviePage.style.css */
+@media (max-width: 385px) {
+    .pos.grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* 카드 크기 조정 */
+    }
+  
+    .title {
+      padding-left: 10px; /* 화면이 작을 때 padding 값 줄이기 */
+    }
+  
+    .pos {
+      padding: 0; /* 여백을 없애기 */
+    }
+  }

@@ -52,14 +52,15 @@ const MoviePage = () => {
             <div className="mb-20"><Slider type='recommend' informations={trends?.results} /></div>
 
             <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{`Total : ${searchData.total_results}`}</div>
-            <div className='grid 2xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 grid-cols-3 min-w-100px gap-2 m-4'>
+
+            <div className='pos grid 2xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 max-[405px]:grid-cols-2 grid-cols-3 gap-2 m-8'>
                 {searchData?.results.map((item, index) => {
                     return <PosterCard item={item} key={index} />
 
                 })}
             </div>
 
-            <div className="join flex m-4">
+            <div className="join md:flex m-4 hidden">
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Prev</button>
                 <div className='join'>
                     <input className="join-item btn btn-square border-primary" onClick={() => handlePageClick(1)}
@@ -83,6 +84,15 @@ const MoviePage = () => {
                 </div>
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page + 1)}>Next</button>
             </div>
+
+            <div className="join flex m-4 md:hidden">
+                <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Prev</button>
+                <input className="join-item btn btn-square border-primary" onClick={() => handlePageClick(page)}
+                            type="radio" name="options" aria-label={page} checked />
+                <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page + 1)}>Next</button>
+            </div>
+
+
         </div>
     )
 }

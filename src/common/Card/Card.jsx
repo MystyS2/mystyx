@@ -23,7 +23,7 @@ const Card = ({ item }) => {
         : item.name;
 
     return (
-        <div className="card image-full w-96 h-full shadow-xl cursor-pointer">
+        <div className="card image-full w-96 h-full shadow-xl cursor-pointer max-w-[403px]:w-20">
             <figure>
                 <img
                     src={imgSrc}
