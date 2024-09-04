@@ -14,6 +14,14 @@ const Card = ({ item }) => {
     if (item.title) genres = movieGenres;
     if (item.name) genres = tvGenres;
 
+    const cardTitle = item.title 
+    ? item.title.length > 30
+        ? item.title.slice(0, 30) + "..."
+        : item.title
+    : item.name.length > 30
+        ? item.name.slice(0, 30) + "..."
+        : item.name;
+
     return (
         <div className="card image-full w-96 h-full shadow-xl cursor-pointer">
             <figure>
@@ -25,9 +33,9 @@ const Card = ({ item }) => {
             </figure>
             <div className="card-body p-0 w-full h-full">
                 <div className="w-full h-full bg-opacity-50 justify-start text-white text-start">
-                    <h1 className="card-title p-12 text-4xl">{item.title ? item.title : item.name}</h1>
+                    <h1 className="card-title p-12 text-4xl">{cardTitle}</h1>
                     <div className='info p-10 w-full h-full flex flex-col'>
-                        <h2 className="card-title text-xl mb-2">{item.title ? item.title : item.name}</h2>
+                        <h2 className="card-title text-xl mb-2">{cardTitle}</h2>
                         <div className='flex mb-2'>
                             {item.genre_ids.map((id, index) => {
                                 if (index < 2) {

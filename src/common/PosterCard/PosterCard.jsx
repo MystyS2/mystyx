@@ -14,13 +14,21 @@ const PosterCard = ({ item }) => {
     if (item?.title) genres = movieGenres;
     if (item?.name) genres = tvGenres;
 
+    const cardTitle = item.title 
+    ? item.title.length > 30
+        ? item.title.slice(0, 30) + "..."
+        : item.title
+    : item.name.length > 30
+        ? item.name.slice(0, 30) + "..."
+        : item.name;
+
     return (
         <div>
             <div className='test h-full'>
                 {item.poster_path === null ? <div className='w-full h-full bg-secondary rounded-lg' />
                     : <figure><img src={imgSrc} alt="card image" className='rounded-lg' /></figure>}
                 <div className='overlay p-10 flex flex-col h-full'>
-                    <h2 className="card-title text-xl mb-2">{item.title ? item.title : item.name}</h2>
+                    <h2 className="card-title text-xl mb-2">{cardTitle}</h2>
                     <div className='flex mb-2'>
                             {item.genre_ids.map((id, index) => {
                                 if (index === 0) {
