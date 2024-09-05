@@ -1,18 +1,25 @@
 import React from 'react'
 import "./Card.style.css"
-
 import { useMovieGenresQuery } from '../../hooks/useMovieGenres';
 import { useTvGenresQuery } from '../../hooks/useTvGenres';
+import { useNavigate } from 'react-router-dom';
 
 const Card = ({ item }) => {
     const imgSrc = `https://image.tmdb.org/t/p/original/${item?.backdrop_path ? item.backdrop_path : item.poster_path}`
     const { data: movieGenres } = useMovieGenresQuery();
     const { data: tvGenres } = useTvGenresQuery();
+    const navigate = useNavigate();
 
-    let genres;
+    let genres, type;
 
-    if (item.title) genres = movieGenres;
-    if (item.name) genres = tvGenres;
+    if (item.title) {
+        genres = movieGenres;
+        type = 'movie'
+    }
+    if (item.name) {
+        genres = tvGenres;
+        type = 'tv'
+    }
 
     const cardTitle = item.title 
     ? item.title.length > 30
@@ -23,7 +30,7 @@ const Card = ({ item }) => {
         : item.name;
 
     return (
-        <div className="card image-full w-96 h-full shadow-xl cursor-pointer max-w-[403px]:w-20">
+        <div className="card image-full w-96 h-full shadow-xl cursor-pointer max-w-[403px]:w-20" onClick={()=>navigate(`/detail/${type}/${item?.id}`)}>
             <figure>
                 <img
                     src={imgSrc}
