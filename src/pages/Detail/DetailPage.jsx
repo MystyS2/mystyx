@@ -33,22 +33,40 @@ const DetailPage = () => {
     );
   }
 
-  console.log(details);
-
   return (
-    <div className='flex flex-col justify-center'>
-      <div
-        className='w-full h-96 bg-center bg-no-repeat bg-cover mb-10'
-        style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${details?.backdrop_path})` }}>
-      </div>
-      <div className='flex w-auto h-auto mx-40 justify-center gap-4'>
+    <div className='flex flex-col justify-center mb-40'>
+      <>
+        <div
+          className='w-full h-96 bg-center bg-no-repeat bg-cover mb-10'
+          style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${details?.backdrop_path})` }}>
+        </div>
+        <div className="absolute top-[68px] w-full h-96 bg-gradient-to-t from-black to-transparent"></div>
+
+        <div className="absolute top-[68px] left-0 w-full h-96 p-16 bg-opacity-50 flex items-end justify-start">
+          <div className="text-white text-start">
+            <h1 className="text-4xl font-bold mb-4">{details.title || details.name}</h1>
+            <p className='flex'>
+              {(details.release_date ? details.release_date.slice(0, 4) : '') ||
+                (details.first_air_date ? details.first_air_date.slice(0, 4) : '')}
+              &nbsp;·&nbsp; {details.genres.map((genre, index) => {
+                return <div className='flex' key={index}>
+                  {genre.name}&nbsp;·&nbsp;
+                </div>
+              })}
+              {details.origin_country}
+            </p>
+          </div>
+        </div>
+      </>
+
+      <div className='flex w-auto h-auto lg:mx-40 lg:flex-row justify-center gap-8 mx-10 flex-col'>
         <img
-          className='w-40'
+          className='h-[400px]'
           src={`https://image.tmdb.org/t/p/w500${details.poster_path}`}
           alt={details.title || details.name}
         />
-        <div className='flex flex-col justify-center'>
-          <h1>{details.title || details.name}</h1> {/* 영화는 title, TV 시리즈는 name */}
+        <div className='flex flex-col justify-center gap-4'>
+          <div className='text-4xl mb-2'>{Array(Math.round(details.vote_average / 2)).fill('⭐')}</div>
           <div className='flex mb-2'>
             {details.genres.map((genre, index) => {
               return <div key={index} className="badge badge-primary mr-2">
@@ -56,13 +74,13 @@ const DetailPage = () => {
               </div>
             })}
           </div>
-          <p>Overview: {details.overview}</p>
-          <p>Release Date: {details.release_date || details.first_air_date}</p>
+          <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>OVERVIEW</h2>
+          <p>{details.overview}</p>
+          <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>REALEASE DATE</h2>
+          <p>{details.release_date || details.first_air_date}</p>
+          <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>RUNTIME</h2>
+          <p>{details.runtime || details.episode_run_time?.[0]} minutes</p>
           <p>Rating: {details.vote_average}</p>
-          <p>Runtime: {details.runtime || details.episode_run_time?.[0]} minutes</p>
-          <div className='mb-2'>{Array(Math.round(details.vote_average / 2)).fill('⭐')}</div>
-
-
         </div>
       </div>
     </div>
