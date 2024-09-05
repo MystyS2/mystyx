@@ -3,12 +3,14 @@ import "./Card.style.css"
 import { useMovieGenresQuery } from '../../hooks/useMovieGenres';
 import { useTvGenresQuery } from '../../hooks/useTvGenres';
 import { useNavigate } from 'react-router-dom';
+import { useMovieRatingQuery } from '../../hooks/useMovieRating';
 
 const Card = ({ item }) => {
+    const navigate = useNavigate();
     const imgSrc = `https://image.tmdb.org/t/p/original/${item?.backdrop_path ? item.backdrop_path : item.poster_path}`
     const { data: movieGenres } = useMovieGenresQuery();
     const { data: tvGenres } = useTvGenresQuery();
-    const navigate = useNavigate();
+    const { data: rating = '등급 정보 없음' } = useMovieRatingQuery(item?.id);
 
     let genres, type;
 
@@ -56,7 +58,13 @@ const Card = ({ item }) => {
                             })}
                         </div>
                         <div className='mb-2'>{Array(Math.round(item.vote_average / 2)).fill('⭐')}</div>
-                        <div>{item.adult ? <div className="badge badge-error gap-2">18+</div> : <div className="badge badge-success gap-2">All</div>}</div>
+                        <div>
+                            {rating === "등급 정보 없음" ? <div className="badge gap-2">{rating}</div> :
+                            rating === "18+" || rating === "19+" ? <div className="badge badge-error gap-2">{rating}</div> : 
+                            rating === "15+" ? <div className="badge badge-accent gap-2">{rating}</div> :
+                            rating === "12+" ? <div className='badge badge-warning gap-2'>{rating}</div> :
+                            <div className="badge badge-success gap-2">{rating}</div>}
+                        </div>
                     </div>
                 </div>
 
