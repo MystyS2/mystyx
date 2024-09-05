@@ -1,6 +1,7 @@
 import React from 'react';
 import { usePopularMoviesQuery } from '../../../../hooks/usePopularMovies';
 import './Banner.style.css';
+import { useNavigate } from 'react-router-dom';
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
 // swiper 모듈 가져오기
@@ -13,6 +14,9 @@ import 'swiper/css/navigation';
 
 const Banner = () => {
     const { data, isLoading, isError, error } = usePopularMoviesQuery();
+
+    const navigate = useNavigate();
+
 
     // 로딩 상태일 때 로딩 UI를 반환
     if (isLoading) {
@@ -49,8 +53,15 @@ const Banner = () => {
                 className='h-full'
             >
                 {data?.results.map((item, index) => {
+                    let type;
+                    if (item.title) {
+                        type = 'movie'
+                    }
+                    if (item.name) {
+                        type = 'tv'
+                    }
                     return index < 4 ?
-                        <SwiperSlide className='w-full' key={index}>
+                        <SwiperSlide className='w-full cursor-pointer' key={index} onClick={() => navigate(`/detail/${type}/${item?.id}`)}>
                             <div
                                 className='banner w-full h-full bg-center bg-no-repeat bg-cover'
                                 style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${item?.backdrop_path})` }}>
