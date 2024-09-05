@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchQuery } from '../../hooks/useSearch'
 import { useTrendingAllQuery } from '../../hooks/useTrendingAll';
 import { useSearchParams } from 'react-router-dom'
 import "./MoviePage.style.css";
 import Slider from '../../../src/common/Slider.jsx/Slider';
-import PosterSlider from '../../common/PosterSlider/PosterSlider';
 import PosterCard from '../../common/PosterCard/PosterCard';
 
 const MoviePage = () => {
@@ -22,9 +21,14 @@ const MoviePage = () => {
             setPage(newPage);
         }
     };
+
+    useEffect(()=>{
+        setPage(1);
+    },[keyword]);
+
     // 로딩 상태일 때 로딩 UI를 반환
     if (isLoading) {
-        return <span className="loading loading-bars loading-lg text-primary"></span>;
+        return <span className="m-40 loading loading-bars loading-lg text-primary"></span>;
     };
 
     // 에러 발생 시 에러 메시지 반환
@@ -53,6 +57,12 @@ const MoviePage = () => {
 
             <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{`Total : ${searchData.total_results}`}</div>
 
+            {searchData?.total_results === 0
+            ? <div className="m-5 flex items-center text-4xl font-semibold gap-4">
+                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Crying%20Face.png" alt="Crying Face" width="100" height="100" />
+                There's no results..</div>
+            : ''}
+
             <div className='pos grid 2xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 max-[405px]:grid-cols-2 grid-cols-3 gap-2 m-8'>
                 {searchData?.results.map((item, index) => {
                     return <PosterCard item={item} key={index} />
@@ -74,7 +84,7 @@ const MoviePage = () => {
                         <input className="join-item btn btn-square border-primary" onClick={() => page < 3 ? handlePageClick(3) : ''}
                             type="radio" checked={page > 2 ? true : false} name="options" aria-label={page > 2 ? page : 3} />}
                     {page < searchData.total_pages - 1 ?
-                        <input className="join-item btn btn-square border-primary" onClick={() => page < 3 ? handlePageClick(3) : handlePageClick(page + 1)}
+                        <input className="join-item btn btn-square border-primary" onClick={() => page < 3 ? handlePageClick(4) : handlePageClick(page + 1)}
                             type="radio" name="options" aria-label={page > 2 ? page + 1 : 4} />
                         : ''}
                     {page !== searchData.total_pages ?
@@ -87,8 +97,7 @@ const MoviePage = () => {
 
             <div className="join flex m-4 md:hidden">
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Prev</button>
-                <input className="join-item btn btn-square border-primary" onClick={() => handlePageClick(page)}
-                            type="radio" name="options" aria-label={page} checked />
+                <button className="join-item btn btn-square border-primary bg-primary" onClick={() => handlePageClick(page)}>{page}</button>
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page + 1)}>Next</button>
             </div>
 
