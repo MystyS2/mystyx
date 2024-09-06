@@ -2,13 +2,17 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import { useDetailByIdQuery } from '../../hooks/useDetailById'
 import { useCreditsQuery } from '../../hooks/useCredits';
+import Review from './components/Review/Review';
+import { useReviewsQuery } from '../../hooks/useReviews';
 
 const DetailPage = () => {
   const { type, id } = useParams();
   const { data, isLoading, isError, error } = useDetailByIdQuery({ type, id });
   const { data: creditData } = useCreditsQuery({ type, id });
+  const { data: reviewData } = useReviewsQuery({ type, id });
   const details = data?.data;
   const credits = creditData?.data;
+  const reviews = reviewData?.data.results;
 
   const stars = Math.round(details?.vote_average / 2);
 
@@ -36,7 +40,6 @@ const DetailPage = () => {
       </div>
     );
   }
-
 
   return (
     <div className='flex flex-col justify-center mb-40'>
@@ -128,7 +131,7 @@ const DetailPage = () => {
         </div>
       </div>
 
-      <div className='flex flex-col bg-neutral w-auto h-auto lg:px-40 gap-8 px-10 py-10 my-20'>
+      <div className='flex flex-col bg-neutral w-auto h-auto lg:px-40 gap-8 px-10 py-10 mt-20'>
         <h2 className='text-3xl font-semibold text-white'>CASTS</h2>
         <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 max-[675px]:grid-cols-1'>
           {credits?.cast?.map((cast, index) => {
@@ -149,6 +152,15 @@ const DetailPage = () => {
                 </div>
               </div>
             }
+          })}
+        </div>
+      </div>
+
+      <div className='flex flex-col w-auto h-auto lg:px-40 gap-8 px-10 py-10'>
+        <h2 className='text-3xl font-semibold text-white'>REVIEWS</h2>
+        <div className='grid max-[300px]:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 text-black'>
+          {reviews?.map((review, index) => {
+            return <Review review={review} key={index} />
           })}
         </div>
       </div>
