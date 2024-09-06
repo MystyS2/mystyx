@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from "react-router-dom";
 import { useDetailByIdQuery } from '../../hooks/useDetailById'
 import { useCreditsQuery } from '../../hooks/useCredits';
@@ -6,6 +6,8 @@ import Review from './components/Review/Review';
 import { useReviewsQuery } from '../../hooks/useReviews';
 import { useRecommendationQuery } from '../../hooks/useRecommendation';
 import PosterCard from '../../common/PosterCard/PosterCard';
+import { usePVQuery } from '../../hooks/usePV';
+import YouTube from 'react-youtube';
 
 const DetailPage = () => {
   const { type, id } = useParams();
@@ -13,15 +15,36 @@ const DetailPage = () => {
   const { data: creditData } = useCreditsQuery({ type, id });
   const { data: reviewData } = useReviewsQuery({ type, id });
   const { data: recommendData } = useRecommendationQuery({ type, id });
+  const { data: PVData } = usePVQuery({ type, id });
   const details = data?.data;
   const credits = creditData?.data;
   const reviews = reviewData?.data.results;
   const recommendations = recommendData?.data.results;
+  const PV = PVData?.data.results;
 
   const [moreReviews, setMoreReviews] = useState(false);
   const [moreRecommend, setMoreRecommend] = useState(false);
 
+  const playerRef = useRef(null);
+
+  // YouTube 동영상 준비 시 player 객체 저장
+  const handleReady = (event) => {
+    playerRef.current = event.target;
+  };
+
+  // 모달 닫을 때 영상을 멈추기
+  const handleClose = () => {
+    if (playerRef.current) {
+      playerRef.current.pauseVideo();
+    }
+  };
+
   const stars = Math.round(details?.vote_average / 2);
+
+  const opts = {
+    height: '300px',
+    width: '100%'
+  };
 
   useEffect(() => {
     setMoreRecommend(false);
@@ -55,7 +78,7 @@ const DetailPage = () => {
 
   return (
     <div className='flex flex-col justify-center mb-40'>
-      <>
+      <div className='cursor-pointer' onClick={() => document.getElementById('pv-box').showModal()}>
         <div
           className='w-full h-96 bg-center bg-no-repeat bg-cover mb-10'
           style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${details?.backdrop_path})` }}>
@@ -77,7 +100,18 @@ const DetailPage = () => {
             </p>
           </div>
         </div>
-      </>
+      </div>
+
+      <dialog id="pv-box" className="modal">
+        <div className="bg-neutral p-5 lg:px-16 lg:py-10 rounded-2xl w-[80vw] h-[50vh] lg:w-[50vw] lg:h-[46vh]">
+          <YouTube videoId={PV?PV[0].key:''} opts={opts} onReady={handleReady} />
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn" onClick={handleClose}>Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
 
       <div className='flex w-auto h-auto lg:mx-40 lg:flex-row justify-center gap-8 mx-10 flex-col'>
         <div className='flex flex-col gap-1 w-[238px] flex-shrink-0'>
@@ -189,10 +223,10 @@ const DetailPage = () => {
 
       <div className='flex flex-col w-auto h-auto lg:px-40 gap-8 px-10 py-10 bg-neutral'>
         <h2 className='text-3xl font-semibold text-white'>RECOMMENDATIONS</h2>
-        <div className='grid grid-cols-3 xl:grid-cols-6 gap-2 text-black'>
+        <div className='grid grid-cols-3 xl:grid-cols-5 gap-2 text-primary'>
           {recommendations?.map((item, index) => {
             return (
-              <div className={index > 5 && !moreRecommend ? 'hidden' : 'flex'}>
+              <div className={index > 4 && !moreRecommend ? 'hidden' : 'flex'}>
                 <PosterCard item={item} key={index} />
               </div>
             );
