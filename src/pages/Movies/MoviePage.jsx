@@ -10,6 +10,7 @@ const MoviePage = () => {
     const [query, setQuery] = useSearchParams();
     const [page, setPage] = useState(1);
     const keyword = query.get("q");
+    const [isAscending, setIsAscending] = useState(false);  // 정렬 상태 (false: 내림차순, true: 오름차순)
 
     const { data: trends } = useTrendingAllQuery();
 
@@ -17,14 +18,21 @@ const MoviePage = () => {
     const searchData = data?.data;
 
     const handlePageClick = (newPage) => {
-        if (newPage > 0 && newPage <= searchData.total_pages) {
+        if (newPage > 0 && newPage <= searchData?.total_pages) {
             setPage(newPage);
         }
     };
 
-    useEffect(()=>{
+    console.log(searchData);
+
+    useEffect(() => {
         setPage(1);
-    },[keyword]);
+    }, [keyword]);
+
+    // 정렬 상태를 변경하는 함수
+    const toggleSortOrder = () => {
+        setIsAscending((prevOrder) => !prevOrder);
+    };
 
     // 로딩 상태일 때 로딩 UI를 반환
     if (isLoading) {
@@ -57,17 +65,21 @@ const MoviePage = () => {
 
             <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{`Total : ${searchData.total_results}`}</div>
 
+            <button onClick={toggleSortOrder} className="btn btn-primary text-white">{isAscending ? 'Popularity🔻' : 'Popularity🔺'}</button>
+
             {searchData?.total_results === 0
-            ? <div className="m-5 flex items-center text-4xl font-semibold gap-4">
-                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Crying%20Face.png" alt="Crying Face" width="100" height="100" />
-                There's no results..</div>
-            : ''}
+                ? <div className="m-5 flex items-center text-4xl font-semibold gap-4">
+                    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Crying%20Face.png" alt="Crying Face" width="100" height="100" />
+                    There's no results..</div>
+                : ''}
 
             <div className='pos grid 2xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 max-[405px]:grid-cols-2 grid-cols-3 gap-2 m-8'>
-                {searchData?.results.map((item, index) => {
-                    return <PosterCard item={item} key={index} />
-
-                })}
+                {searchData?.results
+                    .slice()  // 원본 배열을 변경하지 않기 위해 배열 복사
+                    .sort((a, b) => isAscending ? a.popularity - b.popularity : b.popularity - a.popularity)  // 정렬 순서에 따라 다르게 정렬
+                    .map((item, index) => {
+                        return <PosterCard item={item} key={index} />
+                    })}
             </div>
 
             <div className="join md:flex m-4 hidden">

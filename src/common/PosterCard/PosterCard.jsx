@@ -23,7 +23,7 @@ const PosterCard = ({ item }) => {
         type = 'tv'
     }
 
-    const cardTitle = item.title
+    const cardTitle = item?.title
         ? item.title.length > 30
             ? item.title.slice(0, 30) + "..."
             : item.title
@@ -33,12 +33,12 @@ const PosterCard = ({ item }) => {
 
     return (
         <div className='test h-full' onClick={() => navigate(`/detail/${type}/${item?.id}`)}>
-            {item.poster_path === null ? <div className='w-full h-full bg-secondary rounded-lg' />
+            {!item.poster_path ? <div className='w-full h-full bg-secondary rounded-lg' />
                 : <figure><img src={imgSrc} alt="card image" className='rounded-lg' /></figure>}
             <div className='overlay p-10 flex flex-col h-full'>
                 <h2 className="card-title text-xl mb-2">{cardTitle}</h2>
                 <div className='flex mb-2'>
-                    {item.genre_ids.map((id, index) => {
+                    {item.genre_ids?.map((id, index) => {
                         if (index === 0) {
                             const genre = genres?.find((g) => g.id === id).name.split(" ", 1);  // 장르 ID와 매칭되는 이름 찾기
                             return genre ? (
@@ -49,7 +49,7 @@ const PosterCard = ({ item }) => {
                         }
                     })}
                 </div>
-                <div className='mb-2'>{Array(Math.round(item.vote_average / 2)).fill('⭐')}</div>
+                <div className='mb-2'>{item.vote_average && item.vote_average > 0 ? Array(Math.round(item.vote_average / 2)).fill('⭐') : ''}</div>
                 <div>
                     {rating === "등급 정보 없음" ? <div className="badge gap-2">{rating}</div> :
                         rating === "18+" || rating === "19+" ? <div className="badge badge-error gap-2">{rating}</div> :

@@ -3,7 +3,7 @@ import api from "../utils/api";
 
 const fetchSearch = ({ keyword, page}) => {
   return keyword
-    ? api.get(`/search/movie?query=${keyword}&page=${page}`)
+    ? api.get(`/search/multi?query=${keyword}&page=${page}`)
     : api.get(`/trending/all/day?page=${page}`);
 };
 
