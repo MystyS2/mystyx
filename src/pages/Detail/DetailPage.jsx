@@ -1,22 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useDetailByIdQuery } from '../../hooks/useDetailById'
 import { useCreditsQuery } from '../../hooks/useCredits';
 import Review from './components/Review/Review';
 import { useReviewsQuery } from '../../hooks/useReviews';
+import { useRecommendationQuery } from '../../hooks/useRecommendation';
+import PosterCard from '../../common/PosterCard/PosterCard';
 
 const DetailPage = () => {
   const { type, id } = useParams();
   const { data, isLoading, isError, error } = useDetailByIdQuery({ type, id });
   const { data: creditData } = useCreditsQuery({ type, id });
   const { data: reviewData } = useReviewsQuery({ type, id });
+  const { data: recommendData } = useRecommendationQuery({ type, id });
   const details = data?.data;
   const credits = creditData?.data;
   const reviews = reviewData?.data.results;
+  const recommendations = recommendData?.data.results;
 
   const [moreReviews, setMoreReviews] = useState(false);
+  const [moreRecommend, setMoreRecommend] = useState(false);
 
   const stars = Math.round(details?.vote_average / 2);
+
+  useEffect(() => {
+    setMoreRecommend(false);
+    setMoreReviews(false);
+  }, [id]);
 
   // 로딩 상태일 때 로딩 UI를 반환
   if (isLoading) {
@@ -175,10 +185,26 @@ const DetailPage = () => {
             <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Crying%20Face.png" alt="Crying Face" width="50" height="50" />
             There's no Review</div>
         }
-
       </div>
 
-
+      <div className='flex flex-col w-auto h-auto lg:px-40 gap-8 px-10 py-10 bg-neutral'>
+        <h2 className='text-3xl font-semibold text-white'>RECOMMENDATIONS</h2>
+        <div className='grid grid-cols-3 xl:grid-cols-6 gap-2 text-black'>
+          {recommendations?.map((item, index) => {
+            return (
+              <div className={index > 5 && !moreRecommend ? 'hidden' : 'flex'}>
+                <PosterCard item={item} key={index} />
+              </div>
+            );
+          })}
+        </div>
+        {recommendations?.length != 0
+          ? <button class="btn btn-outline" onClick={() => setMoreRecommend(!moreRecommend)}>{moreRecommend ? 'Close' : 'More Reccomendations'}</button>
+          : <div className="flex items-center text-2xl gap-4">
+            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Crying%20Face.png" alt="Crying Face" width="50" height="50" />
+            There's no Recommendation</div>
+        }
+      </div>
     </div>
   )
 }
