@@ -35,6 +35,10 @@ const DetailPage = () => {
     );
   }
 
+  console.log(type)
+
+
+
   return (
     <div className='flex flex-col justify-center mb-40'>
       <>
@@ -78,6 +82,7 @@ const DetailPage = () => {
         </div>
 
         <div className='flex flex-col gap-4'>
+          <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>GENRES</h2>
           <div className='flex mb-2 max-sm:flex-col max-sm:gap-4'>
             {details.genres.map((genre, index) => {
               return <div key={index} className="badge badge-primary mr-2">
@@ -90,8 +95,16 @@ const DetailPage = () => {
           <p>{details.overview}</p>
           <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>REALEASE DATE</h2>
           <p>{details.release_date || details.first_air_date}</p>
-          <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>RUNTIME</h2>
-          <p>{details.runtime || details.episode_run_time?.[0]} minutes</p>
+          {type == 'tv'
+            ? <>
+              <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>SEASONS & EPISODES</h2>
+              <p>{details.number_of_seasons} Season(s), {details.number_of_episodes} Episodes</p>
+            </>
+            : <>
+              <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>RUNTIME</h2>
+              <p>{details.runtime || details.episode_run_time?.[0]} minutes</p>
+            </>
+          }
         </div>
       </div>
     </div>
