@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from "react-router-dom";
 import { useDetailByIdQuery } from '../../hooks/useDetailById'
 import { useCreditsQuery } from '../../hooks/useCredits';
@@ -13,6 +13,8 @@ const DetailPage = () => {
   const details = data?.data;
   const credits = creditData?.data;
   const reviews = reviewData?.data.results;
+
+  const [moreReviews, setMoreReviews] = useState(false);
 
   const stars = Math.round(details?.vote_average / 2);
 
@@ -160,10 +162,23 @@ const DetailPage = () => {
         <h2 className='text-3xl font-semibold text-white'>REVIEWS</h2>
         <div className='grid max-[300px]:grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 text-black'>
           {reviews?.map((review, index) => {
-            return <Review review={review} key={index} />
+            console.log(index > 4 && !moreReviews)
+            return (
+              <div className={index > 4 && !moreReviews ? 'hidden' : 'flex'}>
+                <Review review={review} key={index} />
+              </div>
+            );
           })}
         </div>
+        {reviews.length != 0
+          ? <button class="btn btn-outline" onClick={() => setMoreReviews(!moreReviews)}>{moreReviews ? 'Close' : 'More Reviews'}</button>
+          : <div className="flex items-center text-2xl gap-4">
+            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Crying%20Face.png" alt="Crying Face" width="50" height="50" />
+            There's no Review</div>
+        }
+
       </div>
+
 
     </div>
   )
