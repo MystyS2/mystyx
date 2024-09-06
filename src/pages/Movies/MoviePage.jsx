@@ -6,16 +6,43 @@ import "./MoviePage.style.css";
 import Slider from '../../../src/common/Slider.jsx/Slider';
 import PosterCard from '../../common/PosterCard/PosterCard';
 
+// Define genres mapping
+const genres = {
+    28: "Action",
+    12: "Adventure",
+    16: "Animation",
+    35: "Comedy",
+    80: "Crime",
+    99: "Documentary",
+    18: "Drama",
+    10751: "Family",
+    14: "Fantasy",
+    36: "History",
+    27: "Horror",
+    10402: "Music",
+    9648: "Mystery",
+    10749: "Romance",
+    878: "Science Fiction",
+    10770: "TV Movie",
+    53: "Thriller",
+    10752: "War",
+    37: "Western"
+};
+
 const MoviePage = () => {
     const [query, setQuery] = useSearchParams();
     const [page, setPage] = useState(1);
     const keyword = query.get("q");
-    const [isAscending, setIsAscending] = useState(false);  // 정렬 상태 (false: 내림차순, true: 오름차순)
+    const [isAscending, setIsAscending] = useState(false);
+    const [selectedGenre, setSelectedGenre] = useState(null);
 
     const { data: trends } = useTrendingAllQuery();
-
     const { data, isLoading, isError, error } = useSearchQuery({ keyword, page });
     const searchData = data?.data;
+
+    useEffect(() => {
+        setPage(1);
+    }, [keyword]);
 
     const handlePageClick = (newPage) => {
         if (newPage > 0 && newPage <= searchData?.total_pages) {
@@ -23,23 +50,22 @@ const MoviePage = () => {
         }
     };
 
-    console.log(searchData);
-
-    useEffect(() => {
-        setPage(1);
-    }, [keyword]);
-
-    // 정렬 상태를 변경하는 함수
     const toggleSortOrder = () => {
-        setIsAscending((prevOrder) => !prevOrder);
+        setIsAscending(prevOrder => !prevOrder);
     };
 
-    // 로딩 상태일 때 로딩 UI를 반환
+    const handleGenreClick = (genreId) => {
+        setSelectedGenre(genreId);
+    };
+
+    const showAll = () => {
+        setSelectedGenre(null);
+    };
+
     if (isLoading) {
         return <span className="m-40 loading loading-bars loading-lg text-primary"></span>;
     };
 
-    // 에러 발생 시 에러 메시지 반환
     if (isError) {
         return (
             <div role="alert" className="alert alert-error">
@@ -59,13 +85,31 @@ const MoviePage = () => {
         );
     };
 
+    const filteredResults = selectedGenre
+        ? searchData?.results.filter(item => item.genre_ids.includes(selectedGenre))
+        : searchData?.results;
+
     return (
         <div className='grid place-items-center'>
             <div className="mb-20"><Slider type='recommend' informations={trends?.results} /></div>
-
-            <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>{`Total : ${searchData.total_results}`}</div>
-
-            <button onClick={toggleSortOrder} className="btn btn-primary text-white">{isAscending ? 'Popularity🔻' : 'Popularity🔺'}</button>
+            <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-secondary max-lg:pl-10'>🪄Sort & Filter</div>
+            <div className='flex flex-wrap gap-2 justify-center my-2'>
+                <button onClick={toggleSortOrder} className="btn btn-accent">{isAscending ? 'Popularity🔻' : 'Popularity🔺'}</button>
+                <button onClick={showAll} className={`btn btn-outline btn-primary ${!selectedGenre ? 'btn-active' : ''}`}>
+                    All
+                </button>
+                {Object.entries(genres).map(([id, name]) => (
+                    <button
+                        key={id}
+                        onClick={() => handleGenreClick(parseInt(id))}
+                        className={`btn btn-outline btn-secondary ${selectedGenre === parseInt(id) ? 'btn-active' : ''}`}
+                    >
+                        {name}
+                    </button>
+                ))}
+            </div>
+            
+            <div className='title text-2xl font-medium w-full h-fit pl-40 py-2 bg-primary max-lg:pl-10'>{`🔍Total : ${searchData.total_results}`}</div>
 
             {searchData?.total_results === 0
                 ? <div className="m-5 flex items-center text-4xl font-semibold gap-4">
@@ -74,14 +118,15 @@ const MoviePage = () => {
                 : ''}
 
             <div className='pos grid 2xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 max-[405px]:grid-cols-2 grid-cols-3 gap-2 m-8'>
-                {searchData?.results
-                    .slice()  // 원본 배열을 변경하지 않기 위해 배열 복사
-                    .sort((a, b) => isAscending ? a.popularity - b.popularity : b.popularity - a.popularity)  // 정렬 순서에 따라 다르게 정렬
-                    .map((item, index) => {
-                        return <PosterCard item={item} key={index} />
-                    })}
+                {filteredResults
+                    .slice()
+                    .sort((a, b) => isAscending ? a.popularity - b.popularity : b.popularity - a.popularity)
+                    .map((item, index) => (
+                        <PosterCard item={item} key={index} />
+                    ))}
             </div>
 
+            {/* Pagination */}
             <div className="join md:flex m-4 hidden">
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page - 1)}>Prev</button>
                 <div className='join'>
@@ -112,8 +157,6 @@ const MoviePage = () => {
                 <button className="join-item btn btn-square border-primary bg-primary" onClick={() => handlePageClick(page)}>{page}</button>
                 <button className="join-item btn btn-outline border-primary" onClick={() => handlePageClick(page + 1)}>Next</button>
             </div>
-
-
         </div>
     )
 }
