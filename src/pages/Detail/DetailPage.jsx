@@ -104,7 +104,13 @@ const DetailPage = () => {
 
       <dialog id="pv-box" className="modal">
         <div className="bg-neutral p-5 lg:px-16 lg:py-10 rounded-2xl w-[80vw] h-[50vh] lg:w-[50vw] lg:h-[46vh]">
-          <YouTube videoId={PV?PV[0].key:''} opts={opts} onReady={handleReady} />
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : PV && PV.length > 0 ? (
+            <YouTube videoId={PV[0].key} opts={opts} onReady={handleReady} />
+          ) : (
+            <p>No video available</p>
+          )}
           <div className="modal-action">
             <form method="dialog">
               <button className="btn" onClick={handleClose}>Close</button>
@@ -137,9 +143,11 @@ const DetailPage = () => {
               </div>
             })}
           </div>
-          <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>OVERVIEW</h2>
+
+          {details.overview ? <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>OVERVIEW</h2>:''}
           {details.tagline ? <p className='mb-1 text-primary'>"{details.tagline}"</p> : ''}
-          <p>{details.overview}</p>
+          {details.overview ? <p>{details.overview}</p>:''}
+
           <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>REALEASE DATE</h2>
           <p>{details.release_date || details.first_air_date}</p>
           {type == 'tv'
@@ -167,7 +175,7 @@ const DetailPage = () => {
             : ''
           }
 
-          {details.networks ? <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>Watchable Platform</h2> : ''}
+          {details.networks.length != 0 ? <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>Watchable Platform</h2> : ''}
           <div className='flex gap-4'>
             {details.networks?.map((item, index) => {
               const url = `https://image.tmdb.org/t/p/original/${item.logo_path}`
