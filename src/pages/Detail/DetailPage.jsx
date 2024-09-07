@@ -144,9 +144,9 @@ const DetailPage = () => {
             })}
           </div>
 
-          {details.overview ? <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>OVERVIEW</h2>:''}
+          {details.overview ? <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>OVERVIEW</h2> : ''}
           {details.tagline ? <p className='mb-1 text-primary'>"{details.tagline}"</p> : ''}
-          {details.overview ? <p>{details.overview}</p>:''}
+          {details.overview ? <p>{details.overview}</p> : ''}
 
           <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>REALEASE DATE</h2>
           <p>{details.release_date || details.first_air_date}</p>
@@ -175,7 +175,9 @@ const DetailPage = () => {
             : ''
           }
 
-          {details.networks.length != 0 ? <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>Watchable Platform</h2> : ''}
+          {data && data.length > 0 && (details.networks.length != 0 ?
+            <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>Watchable Platform</h2>
+            : '')}
           <div className='flex gap-4'>
             {details.networks?.map((item, index) => {
               const url = `https://image.tmdb.org/t/p/original/${item.logo_path}`
