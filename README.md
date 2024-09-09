@@ -1,5 +1,5 @@
 # 🦄Mystyx(OTT 서비스 클론 코딩 프로젝트)
-### ⌛개발 기간  : 2024.08.31~
+### ⌛개발 기간  : 2024.08.31~2024.09.07
 ### 💪프로젝트를 통해 연습한 내용
 - React와 Tailwind CSS, DaisyUI 라이브러리 활용
 - route와 react-query 및 toolkit, React-Hooks(커스텀 훅 포함) 활용법
