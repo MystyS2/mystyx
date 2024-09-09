@@ -58,13 +58,11 @@ export const useMovieRatingQuery = (movieId) => {
       return "등급 정보 없음";
     },
     staleTime: 300000,
-    // retry 옵션 설정 (false로 설정하면 실패한 경우 재시도하지 않음)
     retry: (failureCount, error) => {
       // 404 오류인 경우에는 재시도하지 않음
       if (error.response?.status === 404) {
         return false;
       }
-
       // 그 외의 오류는 3번까지 재시도
       return failureCount < 3;
     },

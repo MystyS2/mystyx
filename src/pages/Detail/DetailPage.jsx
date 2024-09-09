@@ -175,9 +175,9 @@ const DetailPage = () => {
             : ''
           }
 
-          {data && data.length > 0 && (details.networks.length != 0 ?
+          {details.networks ?
             <h2 className='text-xl font-semibold text-secondary border-b-secondary border-b-2 pb-2'>Watchable Platform</h2>
-            : '')}
+            : ''}
           <div className='flex gap-4'>
             {details.networks?.map((item, index) => {
               const url = `https://image.tmdb.org/t/p/original/${item.logo_path}`
